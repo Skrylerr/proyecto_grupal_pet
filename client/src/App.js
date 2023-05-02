@@ -8,6 +8,7 @@ import Register from './registro/Register';
 import Login from './registro/Login'
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
+import Navbar from './views/Navbar';
 
 function App() {
 
@@ -29,14 +30,8 @@ function App() {
 
   return (
     <React.Fragment>
-      <div style={{backgroundColor:"#7a97cf", width:"100%"}}>
-        <Container>
-          <Row className="mb-2">
-            <Col>
-            <h1 style={{color:"white"}}>Pet Society</h1>
-            </Col>
-          </Row>
-        </Container>
+      <div>
+        <Navbar/>
       </div>
       <Routes>
         <Route path='/registro' element={<Register/>}></Route>

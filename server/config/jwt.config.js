@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const secretKey = "Esta es mi super clave";
+const Key = "Esta es mi super clave";
 
-module.exports.secretKey = secretKey;
+module.exports.Key = Key;
 
 module.exports.autenticar = (req, res, next) => {
   jwt.verify(req.cookies.usertoken, secretKey, (err, payload) => {

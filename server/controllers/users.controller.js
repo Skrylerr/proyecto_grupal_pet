@@ -1,7 +1,7 @@
 const User = require('../models/users.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {secretKey} = require('../config/jwt.config');
+const {Key} = require('../config/jwt.config');
 
 module.exports.registrar = (req, res) => {
     User.create(req.body)
@@ -38,8 +38,8 @@ module.exports.login = (req, res) => {
                                 lastName: user.lastName,
                                 email: user.email
                             }
-                            const newJWT = jwt.sign(payload, secretKey);
-                            res.cookie("usertoken", newJWT, secretKey, {
+                            const newJWT = jwt.sign(payload, Key);
+                            res.cookie("usertoken", newJWT, Key, {
                                 httpOnly: true
                             })
                             .json({ error: false, datos: payload});

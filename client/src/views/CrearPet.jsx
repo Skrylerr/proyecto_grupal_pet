@@ -69,6 +69,9 @@ const CrearPet = () => {
       microchip: microchip,
       identificado: identificado,
       linkimagen: e.target.linkimagen.value,
+      linkimagen2: e.target.linkimagen2.value,
+      linkimagen3: e.target.linkimagen3.value,
+      linkimagen4: e.target.linkimagen4.value,
     }
       axios.post("http://localhost:8000/api/pet/new", datosPet)
       .then(resp => {
@@ -191,11 +194,40 @@ const CrearPet = () => {
                   </Form.Group>
                   <div className="mt-5">
                     <Form.Group >
-                      <Form.Label>Foto de Perfil:</Form.Label>
-                      <Form.Control type="text"
-                        placeholder="Colocar url de la imagen"
-                        id="linkimagen"
-                        style={{ width:"300px" }}/>
+                        <Form.Label>Foto de Perfil:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Colocar url de la imagen"
+                            id="linkimagen"
+                            style={{ width: "300px" }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Imagen 2:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Colocar url de la imagen"
+                            id="linkimagen2"
+                            style={{ width: "300px" }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Imagen 3:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Colocar url de la imagen"
+                            id="linkimagen3"
+                            style={{ width: "300px" }}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Imagen 4:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Colocar url de la imagen"
+                            id="linkimagen4"
+                            style={{ width: "300px" }}
+                        />
                     </Form.Group>
                   </div>
                 </Col>

@@ -46,7 +46,20 @@ const PetSchema = new mongoose.Schema({
     linkimagen: {
         type: String,
         required: [true, 'La imagen de la mascota es requerida.']
+    },
+    linkimagen2: {
+        type: String,
+        required: [true]
+    },
+    linkimagen3: {
+        type: String,
+        required: [true]
+    },
+    linkimagen4: {
+        type: String,
+        required: [true]
     }
+    
 }, {timestamps: true});
 
 

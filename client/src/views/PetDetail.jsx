@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Image, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import moment from 'moment';
 import Swal from "sweetalert2";
@@ -19,7 +22,19 @@ const PetDetail = () =>{
       setDatos(resp.data.datosPet)
     })
   }, [id])
-
+  
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    prevArrow: <button type="button" className="slick-prev"><i className="fa fa-arrow-left"></i></button>,
+    nextArrow: <button type="button" className="slick-next"><i className="fa fa-arrow-right"></i></button>
+  };
+  
+  
   const eliminar = (e) => {
     e.preventDefault();
     Swal.fire({
@@ -45,6 +60,7 @@ const PetDetail = () =>{
             Swal.fire('Registro', "Ha ocurrido un error al adoptar", "error");
           })
       })
+
 }
 
   return (
@@ -69,7 +85,28 @@ const PetDetail = () =>{
       <Row >
         <Col md={4} className="mt-3" >
           <Card style={{ width:'25rem'}}>
-            <Image src={datos.linkimagen} rounded />
+          <Slider {...settings}>
+            <div>
+              <Card style={{ width:'25rem'}}>
+                <Image src={datos.linkimagen} rounded />
+              </Card>
+            </div>
+            <div>
+              <Card style={{ width:'25rem'}}>
+                <Image src={datos.linkimagen2} rounded />
+              </Card>
+            </div>
+            <div>
+              <Card style={{ width:'25rem'}}>
+                <Image src={datos.linkimagen3} rounded />
+              </Card>
+            </div>
+            <div>
+              <Card style={{ width:'25rem'}}>
+                <Image src={datos.linkimagen4} rounded />
+              </Card>
+            </div>
+          </Slider>
           </Card>
         </Col>
         <Col>
