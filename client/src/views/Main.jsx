@@ -2,17 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
-import PetCard from "../components/PetCard";
 import axios from "axios";
 import Swal from "sweetalert2";
+import PetCard from "../components/PetCard";
+import PetMap from "../components/PetMap";
 
 const Main = () => {
+<<<<<<< HEAD
+=======
+  const [mapInstance, setMapInstance] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(false);
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+>>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
   const navigate = useNavigate();
   const [listarPet, setListarPet] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
 
   useEffect(() => {
+<<<<<<< HEAD
     axios.get('http://localhost:8000/api/pet')
       .then(res => {
         console.log(res.data.datosPet)
@@ -36,6 +46,29 @@ const Main = () => {
   const handleGenderChange = (e) => {
     setSelectedGender(e.target.value);
   }
+=======
+    axios.get("http://localhost:8000/api/pet").then((res) => {
+      console.log(res.data.datosPet);
+      setListarPet(res.data.datosPet);
+    });
+  }, []);
+
+  const salir = (e) => {
+    sessionStorage.removeItem("USUARIO");
+    Swal.fire({
+      icon: "success",
+      title: "Sesión cerrada correctamente"
+    });
+    navigate("/login");
+  };
+
+  // const onMapClick = (e) => {
+  //   if (window.confirm(`Are you sure you want to mark this coordinates?`)) {
+  //     setLat(e.latLng.lat());
+  //     setLng(e.latLng.lng());
+  //   }
+  // };
+>>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
 
   return (
     <React.Fragment>
@@ -48,12 +81,16 @@ const Main = () => {
           <h3>Estas mascotas buscan un nuevo hogar</h3>
           </Col>
           <Col className="d-flex justify-content-end">
-            <Link to='/pets/new'>
-              <Button className="mt-2" variant="primary" >Dar en adopcíon</Button>
+            <Link to="/pets/new">
+              <Button className="mt-2" variant="primary">
+                Dar en adopcíon
+              </Button>
             </Link>
           </Col>
           <Col className="mt-2" md={2}>
-            <Button className='btn btn-danger' onClick={salir}>Cerrar sesión</Button>
+            <Button className="btn btn-danger" onClick={salir}>
+              Cerrar sesión
+            </Button>
           </Col>
         </Row>
         <Row>
@@ -78,12 +115,24 @@ const Main = () => {
         </Row>
         <Row>
           <div className="d-flex flex-wrap">
+<<<<<<< HEAD
             <PetCard datosPet={listarPet} selectedSpecies={selectedSpecies} selectedGender={selectedGender} />
+=======
+            <PetCard datosPet={listarPet} />
+>>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
           </div>
+        </Row>
+        <Row>
+          <Col>
+            <PetMap
+              setSelectedMarker={setSelectedMarker}
+              setMapInstance={setMapInstance}
+            />
+          </Col>
         </Row>
       </Container>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Main;
