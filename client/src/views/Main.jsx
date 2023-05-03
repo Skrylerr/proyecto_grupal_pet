@@ -9,10 +9,9 @@ import PetMap from "../components/PetMap";
 
 const Main = () => {
   const [mapInstance, setMapInstance] = useState(null);
-  const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(false);
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
+  // const [lat, setLat] = useState(0);
+  // const [lng, setLng] = useState(0);
   const navigate = useNavigate();
   const [listarPet, setListarPet] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
@@ -102,7 +101,14 @@ const Main = () => {
           <Col>
             <PetMap
               setSelectedMarker={setSelectedMarker}
+              selectedMarker={selectedMarker}
               setMapInstance={setMapInstance}
+              mapInstance={mapInstance}
+              zoom={15}
+              initialCenter={{ lat: -12.06743, lng: -77.041307 }}
+              markers={listarPet}
+              mapContainerSize={"map-container-main col rounded-4"}
+              className="mb-1"
             />
           </Col>
         </Row>

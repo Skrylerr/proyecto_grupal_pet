@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import usePlacesAutoComplete, {
   getGeocode,
   getLatLng
@@ -14,7 +14,7 @@ import {
 import "@reach/combobox/styles.css";
 
 function GoogleMapsAutocomplete(props) {
-  const { setSelected } = props;
+  const { setSelected, mapInstance } = props;
   const {
     ready,
     value,
@@ -26,9 +26,11 @@ function GoogleMapsAutocomplete(props) {
   const handleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
+    console.log({ address });
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat, lng });
+    mapInstance.panTo({ lat, lng });
   };
 
   return (
@@ -37,8 +39,10 @@ function GoogleMapsAutocomplete(props) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
-        className="combobox-input"
-        placeholder="Search an address"
+        className="form-control"
+        placeholder="Busca una dirección"
+        id="ubicacion"
+        autoComplete="off"
       />
       <ComboboxPopover>
         <ComboboxList>

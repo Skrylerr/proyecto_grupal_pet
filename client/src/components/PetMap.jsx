@@ -4,89 +4,96 @@ import {
   Marker,
   useLoadScript
 } from "@react-google-maps/api";
-
 import React, { useMemo, useState } from "react";
+import { Form } from "react-bootstrap";
 import GoogleMapsAutocomplete from "./GoogleMapsAutocomplete";
-// import usePlacesAutoComplete, {
-//   getGeocode,
-//   getLatLng
-// } from "use-places-autocomplete";
-
-// import {
-//   Combobox,
-//   ComboboxInput,
-//   ComboboxList,
-//   ComboboxOption,
-//   ComboboxPopover
-// } from "@reach/combobox";
+// import usePlacesAutoComplete, {getGeocode,getLatLng} from "use-places-autocomplete";
+// import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover} from "@reach/combobox";
 // import "@reach/combobox/styles.css";
 
+const libraries = ["places"];
+
 function PetMap(props) {
-  const { setSelectedMarker, setMapInstance } = props;
-  const center = useMemo(() => ({ lat: -12.06743, lng: -77.041307 }), []);
+  const {
+    setSelectedMarker,
+    selectedMarker,
+    mapInstance,
+    setMapInstance,
+    zoom,
+    showAddress,
+    mapContainerSize,
+    markers,
+    initialCenter
+  } = props;
+  const center = useMemo(() => initialCenter, []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
-    libraries: ["places"]
+    libraries: libraries
   });
-  const [selected, setSelected] = useState({});
-  if (!isLoaded) {
-    return <div>Loading...</div>;
+
+  function createKey(location) {
+    return location.lat + location.lng;
   }
-  return (
-    <>
-      <div className="places-container">
-        <GoogleMapsAutocomplete setSelected={setSelected} />
-      </div>
-      <GoogleMap
-        zoom={13}
-        center={center}
-        mapContainerClassName="map-container col rounded-4"
-        onLoad={(mapIns) => setMapInstance(mapIns)}
-        // onClick={() => setSelectedMarker(false)}
-      >
-        {selected && <Marker position={selected} />}
-        {/* {markers.map((marker, key) => (
-    <Marker
-      key={key}
-      title={marker.name}
-      onClick={() => {
-        setSelectedMarker(marker);
-      }}
-      position={{
-        lat: marker.coordinates.lat,
-        lng: marker.coordinates.lng
-      }}
-      animation={window.google.maps.Animation.DROP}
-    />
-  ))} */}
-        {/* {selectedMarker && (
-    <InfoWindow
-      onCloseClick={() => setSelectedMarker(false)}
-      position={{
-        lat: selectedMarker.coordinates.lat,
-        lng: selectedMarker.coordinates.lng
-      }}
-    >
-      <div>
-        <h6>{selectedMarker.name}</h6>
-        <p>Sport: {selectedMarker.sport}</p>
-        <p>Competitiveness: {selectedMarker.category}</p>
-        {selectedMarker.open_field ? (
-          <p>Outdoors field</p>
-        ) : (
-          <p>Indoors field</p>
+
+  const [selected, setSelected] = useState(false);
+  if (!isLoaded) {
+  } else {
+    return (
+      <>
+        {showAddress && (
+          <Form.Group className="mb-3">
+            <Form.Label>Dirección:</Form.Label>
+            <GoogleMapsAutocomplete
+              setSelected={setSelected}
+              mapInstance={mapInstance}
+            />
+          </Form.Group>
         )}
-        {selectedMarker.open_entrance ? (
-          <p className="m-0 p-0">Anyone can enter</p>
-        ) : (
-          <p>Not anyone can enter (Paid entrance, members only, etc)</p>
-        )}
-      </div>
-    </InfoWindow>
-  )} */}
-      </GoogleMap>
-    </>
-  );
+
+        <GoogleMap
+          zoom={zoom}
+          center={center}
+          mapContainerClassName={mapContainerSize}
+          onLoad={(mapIns) => setMapInstance(mapIns)}
+          onClick={() => setSelectedMarker(false)}
+        >
+          {selected && <Marker position={selected} />}
+          {markers &&
+            markers.map((marker) => {
+              // console.log(marker);
+              return (
+                <Marker
+                  key={createKey(marker.coordenadas)}
+                  title={marker.petName}
+                  onClick={() => {
+                    setSelectedMarker(marker);
+                  }}
+                  position={{
+                    lat: marker.coordenadas.lat,
+                    lng: marker.coordenadas.lng
+                  }}
+                  animation={window.google.maps.Animation.DROP}
+                />
+              );
+            })}
+
+          {selectedMarker && (
+            <InfoWindow
+              onCloseClick={() => setSelectedMarker(false)}
+              position={{
+                lat: selectedMarker.coordenadas.lat,
+                lng: selectedMarker.coordenadas.lng
+              }}
+            >
+              <div>
+                <h6>{selectedMarker.petName}</h6>
+              </div>
+            </InfoWindow>
+          )}
+        </GoogleMap>
+      </>
+    );
+  }
 }
 
 export default PetMap;
