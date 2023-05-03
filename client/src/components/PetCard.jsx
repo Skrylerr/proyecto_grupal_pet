@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-<<<<<<< HEAD
 const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
   const filteredPetList = datosPet.filter(pet => {
     if (selectedSpecies && pet.type !== selectedSpecies) {
@@ -24,21 +23,6 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
             <Card.Text>
               {pet.type}
             </Card.Text>
-=======
-const PetCard = ({ datosPet }) => {
-  return (
-    <React.Fragment>
-      {datosPet.map((pet, i) => (
-        <Card style={{ width: "15rem", margin: "0 7px 25px 7px" }} key={i}>
-          <Card.Img
-            variant="top"
-            src={pet.linkimagen}
-            style={{ height: "10rem" }}
-          />
-          <Card.Body>
-            <Card.Title>{pet.petName}</Card.Title>
-            <Card.Text>{pet.type}</Card.Text>
->>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
           </Card.Body>
           <div className="d-flex justify-content-around mb-2">
             <Link to={`/pets/${pet._id}`}>
@@ -49,17 +33,9 @@ const PetCard = ({ datosPet }) => {
             </Link> */}
           </div>
         </Card>
-<<<<<<< HEAD
       )}
-=======
-      ))}
->>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
     </React.Fragment>
   );
 };
 
 export default PetCard;
-<<<<<<< HEAD
-
-=======
->>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a

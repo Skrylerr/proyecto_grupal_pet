@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import './App.css';
 import { Route, Routes, useNavigate} from 'react-router-dom';
 import Main from './views/Main';
@@ -10,19 +9,6 @@ import Login from './registro/Login'
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Navbar from './views/Navbar';
-=======
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import "./App.css";
-import Login from "./registro/Login";
-import Register from "./registro/Register";
-import CrearPet from "./views/CrearPet";
-import EditPet from "./views/EditPet";
-import Main from "./views/Main";
-import PetDetail from "./views/PetDetail";
->>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
 
 function App() {
   const navigate = useNavigate();
@@ -42,19 +28,8 @@ function App() {
 
   return (
     <React.Fragment>
-<<<<<<< HEAD
       <div>
         <Navbar/>
-=======
-      <div style={{ backgroundColor: "#7a97cf", width: "100%" }}>
-        <Container>
-          <Row className="mb-2">
-            <Col>
-              <h1 style={{ color: "white" }}>Pet Society</h1>
-            </Col>
-          </Row>
-        </Container>
->>>>>>> b0cf9988a5919746b4fd90cdf61988e473d3e56a
       </div>
       <Routes>
         <Route path="/registro" element={<Register />}></Route>
