@@ -13,7 +13,12 @@ import Navbar from './views/Navbar';
 function App() {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState();
+  const [loggedUser, setLoggedUser] = useState(JSON.parse(sessionStorage.getItem('USUARIO')));
 
+  function handleLogout() {
+    sessionStorage.removeItem('USUARIO');
+    setLoggedUser(null);
+  }
   useEffect(() => {
     if (!usuario) {
       if (sessionStorage.getItem("USUARIO")) {
@@ -29,7 +34,7 @@ function App() {
   return (
     <React.Fragment>
       <div>
-        <Navbar/>
+        <Navbar loggedUser={loggedUser} handleLogout={handleLogout} />
       </div>
       <Routes>
         <Route path="/registro" element={<Register />}></Route>

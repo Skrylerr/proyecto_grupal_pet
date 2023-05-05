@@ -30,7 +30,7 @@ const Login = () => {
       email: e.target.email.value,
       password: e.target.password.value
     }
-      axios.post("http://localhost:8000/api/login", datosUsuario)
+      axios.post("http://localhost:8000/api/login", datosUsuario,{headers:{'Content-Type':'application/json'},withCredentials:true})
       .then(resp => {
         if(!resp.data.error) {
             sessionStorage.setItem('USUARIO', JSON.stringify(resp.data.datos));

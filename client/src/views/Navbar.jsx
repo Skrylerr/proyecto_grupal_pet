@@ -4,9 +4,10 @@ import { Container, Row, Col, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-function App() {
+function NavbarComponent({ handleLogout }) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loggedUser, setLoggedUser] = useState(JSON.parse(sessionStorage.getItem('USUARIO')));
 
   function toggleSidebar() {
     setSidebarOpen(!sidebarOpen);
@@ -20,6 +21,12 @@ function App() {
     return location.pathname.startsWith(path);
   }
 
+  function handleLogoutClick() {
+    sessionStorage.removeItem('USUARIO');
+    setLoggedUser(null);
+    handleLogout();
+  }
+  
   return (
     <React.Fragment>
       <Navbar bg="primary" variant="dark" expand="md">
@@ -37,15 +44,24 @@ function App() {
               </NavDropdown>
             </Nav>
             <Nav>
-              <Nav.Link as={Link} to="/registro">Register</Nav.Link>
-              <Nav.Link as={Link} to="/login">Login</Nav.Link>
+              {loggedUser ? (
+                <React.Fragment>
+                  <NavDropdown title={`Welcome, ${loggedUser.name} ${loggedUser.lastName}`} id="user-dropdown">
+                    <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+                  </NavDropdown>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Nav.Link as={Link} to="/registro">Register</Nav.Link>
+                  <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                </React.Fragment>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-  </React.Fragment>
-);
+    </React.Fragment>
+  );
 }
 
-
-export default App;
+export default NavbarComponent;

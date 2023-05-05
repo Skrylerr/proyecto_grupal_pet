@@ -60,22 +60,25 @@ function PetMap(props) {
           {selected && <Marker position={selected} />}
           {markers &&
             markers.map((marker) => {
-              // console.log(marker);
-              return (
-                <Marker
-                  key={createKey(marker.coordenadas)}
-                  title={marker.petName}
-                  onClick={() => {
-                    setSelectedMarker(marker);
-                  }}
-                  position={{
-                    lat: marker.coordenadas.lat,
-                    lng: marker.coordenadas.lng
-                  }}
-                  animation={window.google.maps.Animation.DROP}
-                />
-              );
-            })}
+              if (marker.coordenadas) {
+                return (
+                  <Marker
+                    key={createKey(marker.coordenadas)}
+                    title={marker.petName}
+                    onClick={() => {
+                      setSelectedMarker(marker);
+                    }}
+                    position={{
+                      lat: marker.coordenadas.lat,
+                      lng: marker.coordenadas.lng
+                    }}
+                    animation={window.google.maps.Animation.DROP}
+                  />
+                );
+              }
+              return null;
+            })
+          }
 
           {selectedMarker && (
             <InfoWindow

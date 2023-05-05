@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import axios from "axios";
 
-
 const Registro = () => {
 
   const navigate = useNavigate();
+
+  
 
   const crearUsuario = (e) =>{
     e.preventDefault();
@@ -101,7 +102,7 @@ const Registro = () => {
               </Form.Group>
               <Form.Group className="mb-3" >
                 <Form.Label>Email:</Form.Label>
-                <Form.Control type="email"
+                <Form.Control type="email" 
                   minLength={4}
                   id="email"/>
               </Form.Group>
@@ -118,7 +119,7 @@ const Registro = () => {
                   id="confirmPassword"/>
               </Form.Group>
               <Form.Group className="mt-2">
-                <Button className="mb-3" variant="primary" type="submit">
+                <Button className="mb-3" variant="primary" type="submit" >
                   Crear Usuario
                 </Button>
               </Form.Group>

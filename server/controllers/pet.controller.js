@@ -1,5 +1,6 @@
 const Pet = require('../models/pet.model');
 
+
 module.exports.crear = async (req, res) => {
     console.log(req.body)
     await Pet.create(req.body)
@@ -15,6 +16,8 @@ module.exports.crear = async (req, res) => {
             })
         });
 }
+
+
 
 module.exports.listar = async(req, res) => {
     await Pet.find().sort({createdAt:-1})
