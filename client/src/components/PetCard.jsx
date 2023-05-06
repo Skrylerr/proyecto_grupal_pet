@@ -3,7 +3,7 @@ import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
-  const filteredPetList = datosPet.filter(pet => {
+  const filteredPetList = datosPet.filter((pet) => {
     if (selectedSpecies && pet.type !== selectedSpecies) {
       return false;
     }
@@ -15,25 +15,29 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
 
   return (
     <React.Fragment>
-      {filteredPetList.map((pet, i) =>
-        <Card style={{ width: '15rem', margin:"0 7px 25px 7px"}} key={i}>
-          <Card.Img variant="top" src={pet.linkimagen} style={{ height: '10rem'}} />
-          <Card.Body>
-            <Card.Title>{pet.petName}</Card.Title>
-            <Card.Text>
-              {pet.type}
-            </Card.Text>
-          </Card.Body>
-          <div className="d-flex justify-content-around mb-2">
-            <Link to={`/pets/${pet._id}`}>
-              <Button variant="primary">Ver detalle</Button>
-            </Link>
-            {/* <Link to={`/pets/${pet._id}/edit`}>
+      {filteredPetList.map((pet, i) => {
+        return (
+          <Card style={{ width: "15rem", margin: "0 7px 25px 7px" }} key={i}>
+            <Card.Img
+              variant="top"
+              src={`http://localhost:8000/images/${pet.linkimagen}`}
+              style={{ height: "10rem" }}
+            />
+            <Card.Body>
+              <Card.Title>{pet.petName}</Card.Title>
+              <Card.Text>{pet.type}</Card.Text>
+            </Card.Body>
+            <div className="d-flex justify-content-around mb-2">
+              <Link to={`/pets/${pet._id}`}>
+                <Button variant="primary">Ver detalle</Button>
+              </Link>
+              {/* <Link to={`/pets/${pet._id}/edit`}>
               <Button variant="primary">Editar info</Button>
             </Link> */}
-          </div>
-        </Card>
-      )}
+            </div>
+          </Card>
+        );
+      })}
     </React.Fragment>
   );
 };
