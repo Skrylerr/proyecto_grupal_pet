@@ -24,7 +24,6 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'La contraseña es obligatoria'],
         minLength: [4, 'La contraseña debe contener al menos 4 caracteres']
     },
-
 }, {timestamps: true});
 
 

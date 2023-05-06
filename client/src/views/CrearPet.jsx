@@ -49,13 +49,14 @@ const CrearPet = () => {
         text: "Debe agregar una descripcion de la mascota!"
       });
       return;
-    } else if (e.target.linkimagen.value === "") {
-      Swal.fire({
-        icon: "error",
-        text: "Debe agregar una foto de la mascota!"
-      });
-      return;
     }
+    // else if (e.target.linkimagen.value === "") {
+    //   Swal.fire({
+    //     icon: "error",
+    //     text: "Debe agregar una foto de la mascota!"
+    //   });
+    //   return;
+    // }
 
     var datosPet = {
       petName: e.target.petName.value,
@@ -76,10 +77,27 @@ const CrearPet = () => {
       ubicacion: e.target.ubicacion.value,
       coordenadas: coords
     };
+    const formData = new FormData();
+    formData.append("petName", e.target.petName.value);
+    formData.append("type", e.target.type.value);
+    formData.append("gender", e.target.gender.value);
+    formData.append("born", e.target.born.value);
+    formData.append("description", e.target.description.value);
+    formData.append("vacunado", e.target.vacunado.checked);
+    formData.append("desparasitado", e.target.desparasitado.checked);
+    formData.append("esterilizado", e.target.esterilizado.checked);
+    formData.append("microchip", e.target.microchip.checked);
+    formData.append("identificado", e.target.identificado.checked);
+    formData.append("linkimagen", e.target.linkimagen.files[0]);
+    formData.append("ubicacion", e.target.ubicacion.value);
+    formData.append(
+      "coordenadas",
+      `{ "lat": ${coords.lat}, "lng": ${coords.lng} }`
+    );
+
     axios
-      .post("http://localhost:8000/api/pet/new", datosPet)
+      .post("http://localhost:8000/api/pet/new", formData)
       .then((resp) => {
-        console.log(datosPet);
         if (!resp.data.error) {
           Swal.fire(
             "En adopcion",
@@ -194,7 +212,6 @@ const CrearPet = () => {
                   id="vacunado"
                   onChange={(e) => {
                     setVacunado(e.target.checked);
-                    console.log(e.target.checked);
                   }}
                 />
               </Form.Group>
@@ -232,12 +249,14 @@ const CrearPet = () => {
               </Form.Group>
               <div className="mt-5">
                 <Form.Group>
+                  {/* SECCION DE FOTOS DE PERFIL */}
                   <Form.Label>Foto de Perfil:</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="file"
                     placeholder="Colocar url de la imagen"
                     id="linkimagen"
                     style={{ width: "300px" }}
+                    multiple={false}
                   />
                 </Form.Group>
                 <Form.Group>
