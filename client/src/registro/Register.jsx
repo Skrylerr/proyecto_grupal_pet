@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -8,7 +8,6 @@ const Registro = () => {
 
   const navigate = useNavigate();
 
-  
 
   const crearUsuario = (e) =>{
     e.preventDefault();
@@ -43,12 +42,6 @@ const Registro = () => {
         text: 'Debe confirmar su contraseña!',
       })
       return;
-    } else if(e.target.confirmPassword.value !== e.target.password.value){
-      Swal.fire({
-        icon: 'error',
-        text: 'Las Contraseñas no coinciden!',
-      })
-      return;
     }
 
     var datosUsuario = {
@@ -59,18 +52,16 @@ const Registro = () => {
       confirmPassword: e.target.confirmPassword.value
     }
       axios.post("http://localhost:8000/api/newUser", datosUsuario)
-      .then(resp => {
+      .then((resp) => {
         console.log(datosUsuario)
         if(!resp.data.error) {
-          Swal.fire('Registro', "El usuario se ha registrado exitósamente", "success")
+          Swal.fire('¡Registro Exitoso!', "Recibirá un correo para validar su cuenta", "success")
+          navigate("/login");
+        } else {
+          Swal.fire("Login", resp.data.mensaje, "error");
         }
-        navigate("/login");
-      })
-      .catch(error => {
-        console.log(error)
-        Swal.fire('Registro', "Ha ocurrido un error al regitrar el usuario", "error");
-      })
-  }
+      });
+  };
 
 
   return (

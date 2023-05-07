@@ -1,0 +1,47 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.alert_success,
+.alert_error {
+    padding: 2rem;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18pt;
+    border-radius: 0.5rem;
+}
+
+.alert_success {
+    background-color: green;
+}
+
+.alert_error {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+#email___content {
+    padding: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#email___content img {
+    width: 6rem;
+    height: 6rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#email___content h2,
+#email___content p {
+    margin-bottom: 0.5rem;
+}
