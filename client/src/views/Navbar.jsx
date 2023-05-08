@@ -40,7 +40,7 @@ function NavbarComponent({ handleLogout }) {
               <NavDropdown title="Pets" id="pets-dropdown">
                 <NavDropdown.Item as={Link} to="/pets" active={isActivePath('/pets')}>All Pets</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/pets/mine" active={isActivePath('/pets/mine')}>My Pets</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/pets/:userId" active={isActivePath('/pets/:userId')}>My Pets</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav>

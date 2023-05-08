@@ -1,7 +1,8 @@
 const Pet = require("../models/pet.model");
 const path = require("path");
+const jwt = require("jsonwebtoken");
 
-module.exports.crear = async (req, res) => {
+module.exports.crear =  async (req, res) => {
   let file = req.files.linkimagen;
   let bodyData = req.body;
 
@@ -14,6 +15,13 @@ module.exports.crear = async (req, res) => {
   bodyData["coordenadas"] = JSON.parse(bodyData["coordenadas"]);
   await console.log(bodyData);
 
+  // Set the user ID of the authenticated user to the pet's userId field
+  
+  let decodedJwt = jwt.decode(req.body.token, {
+    complete: true
+  });
+  bodyData["userId"] = decodedJwt.payload._id;
+  console.log(decodedJwt)
   await Pet.create(bodyData)
     .then((resp) => {
       res.json({
@@ -29,21 +37,15 @@ module.exports.crear = async (req, res) => {
     });
 };
 
+
+
 module.exports.listar = async (req, res) => {
-  await Pet.find()
-    .sort({ createdAt: -1 })
-    .then((resp) => {
-      res.json({
-        datosPet: resp,
-        error: false
-      });
-    })
-    .catch((e) => {
-      res.json({
-        error: true,
-        mensaje: "Ha ocurrido un error al rescatar la información."
-      });
-    });
+  try {
+    const pets = await Pet.find().sort({ createdAt: -1 });
+    res.json({ datosPet: pets, error: false });
+  } catch (e) {
+    res.status(500).json({ error: true, mensaje: "Ha ocurrido un error al rescatar la información." });
+  }
 };
 
 module.exports.listarId = async (req, res) => {
@@ -93,3 +95,14 @@ module.exports.actualizar = async (req, res) => {
       });
     });
 };
+
+//module.exports.listarPorUsuario = async (req, res) => {
+// try {
+  //const userId = req.params.userId;
+  //const pets = await Pet.find({ userId }).populate('userId');
+  //res.status(200).json({ success: true, data: pets });
+//} catch (error) {
+  //console.error(error);
+  //res.status(500).json({ success: false, message: 'Error al obtener las mascotas del usuario.' });
+//}
+//};

@@ -10,18 +10,22 @@ import PetMap from "../components/PetMap";
 const Main = () => {
   const [mapInstance, setMapInstance] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(false);
-  // const [lat, setLat] = useState(0);
-  // const [lng, setLng] = useState(0);
   const navigate = useNavigate();
   const [listarPet, setListarPet] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/pet").then((res) => {
+    axios.get("http://localhost:8000/api/pet", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then((res) => {
       console.log(res.data.datosPet);
       setListarPet(res.data.datosPet);
       console.log(sessionStorage.getItem("USUARIO"));
+    }).catch((err) => {
+      console.error(err);
     });
   }, []);
 

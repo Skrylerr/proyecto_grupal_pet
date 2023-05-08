@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
-
 const PetSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
     petName: {
       type: String,
       required: [true, "El nombre de la mascota es requerido"],
@@ -70,14 +74,10 @@ const PetSchema = new mongoose.Schema(
     coordenadas: {
       type: Object
     },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true
-    }
   },
   { timestamps: true }
 );
+
 
 const Pet = mongoose.model("Pet", PetSchema);
 module.exports = Pet;

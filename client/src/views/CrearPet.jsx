@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import AddressAndMap from "../components/AddressAndMap";
 
+
 const CrearPet = () => {
   const navigate = useNavigate();
   const [vacunado, setVacunado] = useState(false);
@@ -57,7 +58,6 @@ const CrearPet = () => {
     //   });
     //   return;
     // }
-
     var datosPet = {
       petName: e.target.petName.value,
       type: e.target.type.value,
@@ -94,27 +94,30 @@ const CrearPet = () => {
       "coordenadas",
       `{ "lat": ${coords.lat}, "lng": ${coords.lng} }`
     );
-
+    const token = document.cookie.split("=")[1]; // JWT token from cookie
+    formData.append("token",token);
+    
     axios
-      .post("http://localhost:8000/api/pet/new", formData)
-      .then((resp) => {
-        if (!resp.data.error) {
-          Swal.fire(
-            "En adopcion",
-            "Los datos se guardaron exitósamente!",
-            "success"
-          );
-        }
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
+    .post("http://localhost:8000/api/pet/new", formData)
+    .then((resp) => {
+      if (!resp.data.error) {
+        
         Swal.fire(
-          "Registro",
-          "Ha ocurrido un error al regitrar la mascota!",
-          "error"
+          "En adopcion",
+          "Los datos se guardaron exitósamente!",
+          "success"
         );
-      });
+      }
+      navigate("/");
+    })
+    .catch((error) => {
+      console.log(error);
+      Swal.fire(
+        "Registro",
+        "Ha ocurrido un error al regitrar la mascota!",
+        "error"
+      );
+    });
   };
 
   return (

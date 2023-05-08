@@ -9,9 +9,11 @@ import Login from './registro/Login'
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Navbar from './views/Navbar';
+import Mypets from './views/Mypets';
 
 function App() {
   const navigate = useNavigate();
+  const Key = "Esta es mi super clave";
   const [usuario, setUsuario] = useState();
   const [loggedUser, setLoggedUser] = useState(JSON.parse(sessionStorage.getItem('USUARIO')));
 
@@ -43,6 +45,7 @@ function App() {
         <Route path="/pets/new" element={<CrearPet />}></Route>
         <Route path="/pets/:id" element={<PetDetail />}></Route>
         <Route path="/pets/:id/edit" element={<EditPet />}></Route>
+        <Route path="/pets/:userId" element={<Mypets />}></Route>
       </Routes>
     </React.Fragment>
   );
