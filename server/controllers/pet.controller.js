@@ -21,6 +21,12 @@ module.exports.crear = async (req, res) => {
   let decodedJwt = jwt.decode(req.body.token, {
     complete: true
   });
+  if (!decodedJwt) {
+    return res.status(400).json({
+      error: true,
+      mensaje: "Ha ocurrido un error al crear la Mascota"
+    });
+  }
 
   bodyData["userId"] = decodedJwt.payload._id;
   await Pet.create(bodyData)

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -35,7 +35,7 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender, userId }) => {
               </Link>
               {canEdit && (
                 <Link to={`/pets/${pet._id}/edit`}>
-                  <Button variant="primary">Editar info</Button>
+                  <Button variant="primary">Editar</Button>
                 </Link>
               )}
             </div>
