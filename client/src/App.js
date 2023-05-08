@@ -43,7 +43,7 @@ function App() {
       <Routes>
         <Route path="/registro" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
-        <Route path="/*" element={<Main />}></Route>
+        <Route path="/*" element={<Main loggedUser={loggedUser} />} />
         <Route path="/pets/new" element={<CrearPet />}></Route>
         <Route path="/pets/:id" element={<PetDetail />}></Route>
         <Route path="/pets/:id/edit" element={<EditPet />}></Route>

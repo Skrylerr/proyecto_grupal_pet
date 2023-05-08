@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
+const PetCard = ({ datosPet, selectedSpecies, selectedGender, userId }) => {
   const filteredPetList = datosPet.filter((pet) => {
     if (selectedSpecies && pet.type !== selectedSpecies) {
       return false;
@@ -16,6 +16,8 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
   return (
     <React.Fragment>
       {filteredPetList.map((pet, i) => {
+        const canEdit = pet.userId === userId; // verifica si el userId de la mascota coincide con el userId del usuario logueado
+
         return (
           <Card style={{ width: "15rem", margin: "0 7px 25px 7px" }} key={i}>
             <Card.Img
@@ -31,9 +33,11 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
               <Link to={`/pets/${pet._id}`}>
                 <Button variant="primary">Ver detalle</Button>
               </Link>
-              <Link to={`/pets/${pet._id}/edit`}>
-                <Button variant="primary">Editar info</Button>
-              </Link>
+              {canEdit && (
+                <Link to={`/pets/${pet._id}/edit`}>
+                  <Button variant="primary">Editar info</Button>
+                </Link>
+              )}
             </div>
           </Card>
         );

@@ -6,11 +6,10 @@ import axios from "axios";
 import PetCard from "../components/PetCard";
 import PetMap from "../components/PetMap";
 
-const Main = () => {
+
+const Main = ({ loggedUser }) => {
   const [mapInstance, setMapInstance] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(false);
-  // const [lat, setLat] = useState(0);
-  // const [lng, setLng] = useState(0);
   const [listarPet, setListarPet] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
@@ -93,11 +92,12 @@ const Main = () => {
         </Row>
         <Row>
           <div className="d-flex flex-wrap">
-            <PetCard
+          <PetCard
               datosPet={listarPet}
               selectedSpecies={selectedSpecies}
               selectedGender={selectedGender}
-            />
+              userId={loggedUser?._id} // pasamos el userId del usuario logueado
+          />
           </div>
         </Row>
         <Row>
