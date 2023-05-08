@@ -2,16 +2,28 @@ const jwt = require("jsonwebtoken");
 
 const Key = "Esta es mi super clave";
 
-module.exports.Key = Key;
+const getToken = (payload) => {
+  return jwt.sign({
+      data: payload
+  }, Key, { expiresIn: '1h' });
+}
 
-
-module.exports.autenticar = (req, res, next) => {
-  jwt.verify(req.cookies.usertoken, Key, (err, payload) => {
-    if (err) { 
-      res.status(401).json({verified: false});
-    } else {
-      
-      next();
-    }
+const getTokenData = (token) => {
+  let data = null;
+  jwt.verify(token, Key, (err, decoded) => {
+      if(err) {
+          console.log('Error al obtener data del token');
+      } else {
+          data = decoded;
+      }
   });
+
+  return data;
+}
+
+
+module.exports = {
+  Key,
+  getToken,
+  getTokenData
 }

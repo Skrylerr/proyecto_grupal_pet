@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
+
 
 import axios from "axios";
-import Swal from "sweetalert2";
 import PetCard from "../components/PetCard";
 import PetMap from "../components/PetMap";
 
 const Main = () => {
   const [mapInstance, setMapInstance] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(false);
-  const navigate = useNavigate();
+  // const [lat, setLat] = useState(0);
+  // const [lng, setLng] = useState(0);
   const [listarPet, setListarPet] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
@@ -28,15 +28,6 @@ const Main = () => {
       console.error(err);
     });
   }, []);
-
-  const salir = (e) => {
-    sessionStorage.removeItem("USUARIO");
-    Swal.fire({
-      icon: "success",
-      title: "Sesión cerrada correctamente"
-    });
-    navigate("/login");
-  };
 
   const handleSpeciesChange = (e) => {
     setSelectedSpecies(e.target.value);
@@ -65,22 +56,8 @@ const Main = () => {
             className="me-2 img-fluid"
           />
         </Row>
-        <Row className="mb-2">
-          <Col className="mb-3">
-            <h3>Estas mascotas buscan un nuevo hogar</h3>
-          </Col>
-          <Col className="d-flex justify-content-end">
-            <Link to="/pets/new">
-              <Button className="mt-2" variant="primary">
-                Dar en adopcíon
-              </Button>
-            </Link>
-          </Col>
-          <Col className="mt-2" md={2}>
-            <Button className="btn btn-danger" onClick={salir}>
-              Cerrar sesión
-            </Button>
-          </Col>
+        <Row className="mb-3">
+            <h3 className="d-flex justify-content-center">Estas mascotas buscan un nuevo hogar</h3>
         </Row>
         <Row>
           <Col className="mb-3">

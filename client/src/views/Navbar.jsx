@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
 
 function NavbarComponent({ handleLogout }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loggedUser, setLoggedUser] = useState(JSON.parse(sessionStorage.getItem('USUARIO')));
 
@@ -25,6 +27,11 @@ function NavbarComponent({ handleLogout }) {
     sessionStorage.removeItem('USUARIO');
     setLoggedUser(null);
     handleLogout();
+    Swal.fire({
+      icon: "success",
+      title: "Sesión cerrada correctamente"
+    });
+    navigate("/login");
   }
   
   return (

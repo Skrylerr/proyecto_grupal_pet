@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const bcrypt = require('bcrypt');
-
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -24,32 +22,17 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'La contraseña es obligatoria'],
         minLength: [4, 'La contraseña debe contener al menos 4 caracteres']
     },
-    
+    code: { 
+        type: String,
+        required: true,
+        default: "",
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'UNVERIFIED' 
+    }
 }, {timestamps: true});
-
-
-    // add this after UserSchema is defined
-    UserSchema.virtual('confirmPassword')
-        .get( () => this._confirmPassword )
-        .set( value => this._confirmPassword = value );
-
-        UserSchema.pre('validate', function(next) {
-        if (this.password !== this.confirmPassword) {
-            this.invalidate('confirmPassword', 'Las claves deben ser iguales');
-        }
-        next();
-    });
-
-    // this should go after 
-    UserSchema.pre('save', function(next) {
-        bcrypt.hash(this.password, 10)
-            .then(hash => {
-                this.password = hash;
-                next();
-            });
-    });
-
-
 
 const User = mongoose.model("User", UserSchema)
 module.exports = User;
