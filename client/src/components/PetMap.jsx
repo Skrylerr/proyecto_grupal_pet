@@ -7,9 +7,6 @@ import {
 import React, { useMemo, useState } from "react";
 import { Form } from "react-bootstrap";
 import GoogleMapsAutocomplete from "./GoogleMapsAutocomplete";
-// import usePlacesAutoComplete, {getGeocode,getLatLng} from "use-places-autocomplete";
-// import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover} from "@reach/combobox";
-// import "@reach/combobox/styles.css";
 
 const libraries = ["places"];
 
@@ -24,9 +21,10 @@ function PetMap(props) {
     showAddress,
     mapContainerSize,
     markers,
-    initialCenter
+    initialCenter,
+    initUbicacion
   } = props;
-  const center = useMemo(() => initialCenter, []);
+  const center = useMemo(() => initialCenter, [initialCenter]);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
     libraries: libraries
@@ -45,8 +43,10 @@ function PetMap(props) {
           <Form.Group className="mb-3">
             <Form.Label>Dirección:</Form.Label>
             <GoogleMapsAutocomplete
+              initUbicacion={initUbicacion}
               setSelected={setSelected}
               mapInstance={mapInstance}
+              isCropperDisplayed={isCropperDisplayed}
             />
           </Form.Group>
         )}

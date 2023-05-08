@@ -1,11 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageCropDialog from "./ImageCropDialog";
 
-function PetImageInput({ linkimagen, setIsCropperDisplayed, putImage }) {
+function PetImageInput({
+  linkimagen,
+  setIsCropperDisplayed,
+  putImage,
+  initImageURL
+}) {
   const [selectedImage, setSelectedImage] = useState(false);
   const [displayImage, setDisplayImage] = useState(null);
   const [isFirstUploaded, setIsFirstUploaded] = useState(false);
-
+  useEffect(() => {
+    if (initImageURL) {
+      setDisplayImage({
+        id: 1,
+        imageUrl: `http://localhost:8000/images/${initImageURL}`,
+        croppedImageUrl: `http://localhost:8000/images/${initImageURL}`
+      });
+      setIsFirstUploaded(false);
+      const putInitImage = async () => {
+        await fetch(`http://localhost:8000/images/${initImageURL}`).then(
+          async (response) => {
+            const contentType = response.headers.get("content-type");
+            const blob = await response.blob();
+            const file = new File([blob], "myFile.jpg", { contentType });
+            putImage(file);
+          }
+        );
+      };
+      putInitImage();
+    }
+  }, [initImageURL]);
   const onCancel = () => {
     setSelectedImage(false);
     setIsFirstUploaded(false);

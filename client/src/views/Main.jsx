@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-
 import axios from "axios";
 import PetCard from "../components/PetCard";
 import PetMap from "../components/PetMap";
-
 
 const Main = ({ loggedUser }) => {
   const [mapInstance, setMapInstance] = useState(null);
@@ -15,17 +13,19 @@ const Main = ({ loggedUser }) => {
   const [selectedGender, setSelectedGender] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/pet", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }).then((res) => {
-      console.log(res.data.datosPet);
-      setListarPet(res.data.datosPet);
-      console.log(sessionStorage.getItem("USUARIO"));
-    }).catch((err) => {
-      console.error(err);
-    });
+    axios
+      .get("http://localhost:8000/api/pet", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      .then((res) => {
+        setListarPet(res.data.datosPet);
+        console.log(sessionStorage.getItem("USUARIO"));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   const handleSpeciesChange = (e) => {
@@ -35,13 +35,6 @@ const Main = ({ loggedUser }) => {
   const handleGenderChange = (e) => {
     setSelectedGender(e.target.value);
   };
-
-  // const onMapClick = (e) => {
-  //   if (window.confirm(`Are you sure you want to mark this coordinates?`)) {
-  //     setLat(e.latLng.lat());
-  //     setLng(e.latLng.lng());
-  //   }
-  // };
 
   return (
     <React.Fragment>
@@ -56,7 +49,9 @@ const Main = ({ loggedUser }) => {
           />
         </Row>
         <Row className="mb-3">
-            <h3 className="d-flex justify-content-center">Estas mascotas buscan un nuevo hogar</h3>
+          <h3 className="d-flex justify-content-center">
+            Estas mascotas buscan un nuevo hogar
+          </h3>
         </Row>
         <Row>
           <Col className="mb-3">
@@ -92,12 +87,12 @@ const Main = ({ loggedUser }) => {
         </Row>
         <Row>
           <div className="d-flex flex-wrap">
-          <PetCard
+            <PetCard
               datosPet={listarPet}
               selectedSpecies={selectedSpecies}
               selectedGender={selectedGender}
               userId={loggedUser?._id} // pasamos el userId del usuario logueado
-          />
+            />
           </div>
         </Row>
         <Row>

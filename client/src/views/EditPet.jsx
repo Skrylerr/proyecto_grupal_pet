@@ -23,24 +23,26 @@ const EditPet = () => {
   const [esterilizado, setEsterilizado] = useState(false);
   const [microchip, setMicrochip] = useState(false);
   const [identificado, setIdentificado] = useState(false);
-  const [displayImage, setDisplayImage] = useState(false);
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
   const [image4, setImage4] = useState(false);
+  const [image1URL, setImage1URL] = useState("");
+  const [image2URL, setImage2URL] = useState("");
+  const [image3URL, setImage3URL] = useState("");
+  const [image4URL, setImage4URL] = useState("");
+  const [coordenadas, setCoordenadas] = useState("");
   const [ubicacion, setUbicacion] = useState(null);
   var formData = new FormData();
 
   useEffect(() => {
-    const a = async () => {
+    const getAllInfo = async () => {
       await axios.get(`http://localhost:8000/api/pet/${id}`).then((resp) => {
         setNombre(resp.data.datosPet.petName);
         setEspecie(resp.data.datosPet.type);
         setSexo(resp.data.datosPet.gender);
         const date = new Date(resp.data.datosPet.born);
         const newDate = moment.utc(date).format("YYYY-MM-DD");
-        console.log(date);
-        console.log(newDate);
         setNacimiento(newDate);
         setDescripcion(resp.data.datosPet.description);
         setVacunado(resp.data.datosPet.vacunado);
@@ -49,31 +51,30 @@ const EditPet = () => {
         setMicrochip(resp.data.datosPet.microchip);
         setIdentificado(resp.data.datosPet.identificado);
         setUbicacion(resp.data.datosPet.ubicacion);
-        // console.log(resp.data.datosPet.born);
+        setCoordenadas(resp.data.datosPet.coordenadas);
+        setImage1URL(resp.data.datosPet.linkimagen1);
+        setImage2URL(resp.data.datosPet.linkimagen2);
+        setImage3URL(resp.data.datosPet.linkimagen3);
+        setImage4URL(resp.data.datosPet.linkimagen4);
       });
     };
-    a();
+    getAllInfo();
   }, []);
   const putImage1 = (file) => {
     setImage1(file);
-    console.log("Image was appended to form");
   };
   const putImage2 = (file) => {
     setImage2(file);
-    console.log("Image was appended to form");
   };
   const putImage3 = (file) => {
     setImage3(file);
-    console.log("Image was appended to form");
   };
   const putImage4 = (file) => {
     setImage4(file);
-    console.log("Image was appended to form");
   };
 
-  const crearPet = async (e) => {
+  const editPet = async (e) => {
     e.preventDefault();
-    console.log("hello wrods");
     const validateForm = () => {
       if (e.target.petName.value === "") {
         Swal.fire({
@@ -106,28 +107,24 @@ const EditPet = () => {
         });
         return;
       } else if (image1 === false) {
-        console.log("hey1");
         Swal.fire({
           icon: "error",
           text: "Debe agregar la foto de perfil de la mascota!"
         });
         return;
       } else if (image2 === false) {
-        console.log("hey2");
         Swal.fire({
           icon: "error",
           text: "Debe agregar una foto más!"
         });
         return;
       } else if (image3 === false) {
-        console.log("hey3");
         Swal.fire({
           icon: "error",
           text: "Debe agregar una foto más!"
         });
         return;
       } else if (image4 === false) {
-        console.log("hey4");
         Swal.fire({
           icon: "error",
           text: "Debe agregar una foto más!"
@@ -141,7 +138,7 @@ const EditPet = () => {
         return;
       }
     };
-    validateForm();
+    await validateForm();
     const appendEverything = async () => {
       const address = e.target.ubicacion.value;
       const results = await getGeocode({ address });
@@ -166,9 +163,9 @@ const EditPet = () => {
         `{ "lat": ${coords.lat}, "lng": ${coords.lng} }`
       );
     };
-    appendEverything();
+    await appendEverything();
     axios
-      .post("http://localhost:8000/api/pet/new", formData)
+      .put(`http://localhost:8000/api/pet/update/${id}`, formData)
       .then((resp) => {
         if (!resp.data.error) {
           Swal.fire(
@@ -203,7 +200,7 @@ const EditPet = () => {
           </Link>
         </Col>
       </Row>
-      <Form onSubmit={crearPet}>
+      <Form onSubmit={editPet}>
         <Card>
           <Row className="px-3">
             <Col className="m-3">
@@ -348,6 +345,7 @@ const EditPet = () => {
                   <PetImageInput
                     linkimagen={"linkimagen1"}
                     putImage={putImage1}
+                    initImageURL={image1URL}
                     setIsCropperDisplayed={setIsCropperDisplayed}
                   />
                 </Form.Group>
@@ -356,6 +354,7 @@ const EditPet = () => {
                   <PetImageInput
                     linkimagen={"linkimagen2"}
                     putImage={putImage2}
+                    initImageURL={image2URL}
                     setIsCropperDisplayed={setIsCropperDisplayed}
                   />
                 </Form.Group>
@@ -363,6 +362,7 @@ const EditPet = () => {
                   <Form.Label>Imagen 3:</Form.Label>
                   <PetImageInput
                     linkimagen={"linkimagen3"}
+                    initImageURL={image3URL}
                     putImage={putImage3}
                     setIsCropperDisplayed={setIsCropperDisplayed}
                   />
@@ -371,13 +371,18 @@ const EditPet = () => {
                   <Form.Label>Imagen 4:</Form.Label>
                   <PetImageInput
                     linkimagen={"linkimagen4"}
+                    initImageURL={image4URL}
                     putImage={putImage4}
                     setIsCropperDisplayed={setIsCropperDisplayed}
                   />
                 </Form.Group>
               </div>
               <Form.Group>
-                <AddressAndMap isCropperDisplayed={isCropperDisplayed} />
+                <AddressAndMap
+                  initCoords={coordenadas}
+                  initUbicacion={ubicacion}
+                  isCropperDisplayed={isCropperDisplayed}
+                />
               </Form.Group>
             </Col>
           </Row>

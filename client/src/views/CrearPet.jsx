@@ -16,7 +16,6 @@ const CrearPet = () => {
   const [esterilizado, setEsterilizado] = useState(false);
   const [microchip, setMicrochip] = useState(false);
   const [identificado, setIdentificado] = useState(false);
-  const [displayImage, setDisplayImage] = useState(false);
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
   const [image3, setImage3] = useState(false);
@@ -24,24 +23,19 @@ const CrearPet = () => {
   var formData = new FormData();
   const putImage1 = (file) => {
     setImage1(file);
-    console.log("Image was appended to form");
   };
   const putImage2 = (file) => {
     setImage2(file);
-    console.log("Image was appended to form");
   };
   const putImage3 = (file) => {
     setImage3(file);
-    console.log("Image was appended to form");
   };
   const putImage4 = (file) => {
     setImage4(file);
-    console.log("Image was appended to form");
   };
 
   const crearPet = async (e) => {
     e.preventDefault();
-    console.log("hello wrods");
     if (e.target.petName.value === "") {
       Swal.fire({
         icon: "error",
@@ -73,28 +67,24 @@ const CrearPet = () => {
       });
       return;
     } else if (image1 === false) {
-      console.log("hey1");
       Swal.fire({
         icon: "error",
         text: "Debe agregar la foto de perfil de la mascota!"
       });
       return;
     } else if (image2 === false) {
-      console.log("hey2");
       Swal.fire({
         icon: "error",
         text: "Debe agregar una foto más!"
       });
       return;
     } else if (image3 === false) {
-      console.log("hey3");
       Swal.fire({
         icon: "error",
         text: "Debe agregar una foto más!"
       });
       return;
     } else if (image4 === false) {
-      console.log("hey4");
       Swal.fire({
         icon: "error",
         text: "Debe agregar una foto más!"

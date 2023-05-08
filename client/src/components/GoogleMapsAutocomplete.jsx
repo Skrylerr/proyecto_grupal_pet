@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import usePlacesAutoComplete, {
   getGeocode,
   getLatLng
@@ -14,7 +14,7 @@ import {
 import "@reach/combobox/styles.css";
 
 function GoogleMapsAutocomplete(props) {
-  const { setSelected, mapInstance } = props;
+  const { setSelected, mapInstance, initUbicacion, isCropperDisplayed } = props;
   const {
     ready,
     value,
@@ -22,7 +22,13 @@ function GoogleMapsAutocomplete(props) {
     suggestions: { status, data },
     clearSuggestions
   } = usePlacesAutoComplete();
-
+  useEffect(() => {
+    if (mapInstance) {
+      if (initUbicacion) {
+        handleSelect(initUbicacion);
+      }
+    }
+  }, [initUbicacion, mapInstance]);
   const handleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
@@ -44,14 +50,16 @@ function GoogleMapsAutocomplete(props) {
         id="ubicacion"
         autoComplete="off"
       />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
+      {!isCropperDisplayed && (
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" &&
+              data.map(({ place_id, description }) => (
+                <ComboboxOption key={place_id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      )}
     </Combobox>
   );
 }

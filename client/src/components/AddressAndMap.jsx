@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import PetMap from "./PetMap";
 
-function AddressAndMap({ isCropperDisplayed }) {
+function AddressAndMap({ isCropperDisplayed, initUbicacion, initCoords }) {
   const [mapInstance, setMapInstance] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(false);
   return (
     <div>
       <PetMap
+        initUbicacion={initUbicacion}
         isCropperDisplayed={isCropperDisplayed}
         setSelectedMarker={setSelectedMarker}
         setMapInstance={setMapInstance}
@@ -14,7 +15,9 @@ function AddressAndMap({ isCropperDisplayed }) {
         zoom={14}
         mapContainerSize={"map-container-tiny col rounded-4"}
         showAddress={true}
-        initialCenter={{ lat: -12.06743, lng: -77.041307 }}
+        initialCenter={
+          initCoords ? initCoords : { lat: -12.06743, lng: -77.041307 }
+        }
         mapInstance={mapInstance}
         markers={false}
       />

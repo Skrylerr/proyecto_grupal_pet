@@ -23,8 +23,6 @@ module.exports.crear = async (req, res) => {
   });
 
   bodyData["userId"] = decodedJwt.payload._id;
-  console.log(decodedJwt);
-  console.log(bodyData);
   await Pet.create(bodyData)
     .then((resp) => {
       res.json({
@@ -79,7 +77,6 @@ module.exports.eliminar = async (req, res) => {
   ];
   const public = "./public/";
   for (file of filesToDelete) {
-    console.log(file);
     fs.unlinkSync(public + file);
   }
   await Pet.findByIdAndDelete(req.params.id)
@@ -98,7 +95,35 @@ module.exports.eliminar = async (req, res) => {
 };
 
 module.exports.actualizar = async (req, res) => {
-  await Pet.findByIdAndUpdate(req.params.id, req.body, { runValidators: true })
+  // ------------------------- DELETES PREVIOUS IMAGES
+  const pet = await Pet.findById(req.params.id);
+  const filesToDelete = [
+    pet.linkimagen1,
+    pet.linkimagen2,
+    pet.linkimagen3,
+    pet.linkimagen4
+  ];
+  const public = "./public/";
+  for (file of filesToDelete) {
+    fs.unlinkSync(public + file);
+  }
+  // ------------------------
+
+  // ------------------------ CREATES ANDS SAVES THE INCOMING IMAGES AND CHANGES
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  let files = req.files;
+  let bodyData = req.body;
+  for (const key in files) {
+    await delay(50);
+    const file = files[key];
+    const extensionName = path.extname(file.name);
+    var imageName = Math.floor(Date.now()) + extensionName;
+    file.mv(`${__dirname}/../public/${imageName}`);
+    bodyData[key] = imageName;
+  }
+  bodyData["coordenadas"] = JSON.parse(bodyData["coordenadas"]);
+  // ------------------------
+  await Pet.findByIdAndUpdate(req.params.id, bodyData, { runValidators: true })
     .then((resp) => {
       res.json({
         datosPet: req.datos,
