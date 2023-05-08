@@ -20,7 +20,7 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
           <Card style={{ width: "15rem", margin: "0 7px 25px 7px" }} key={i}>
             <Card.Img
               variant="top"
-              src={`http://localhost:8000/images/${pet.linkimagen}`}
+              src={`http://localhost:8000/images/${pet.linkimagen1}`}
               style={{ height: "10rem" }}
             />
             <Card.Body>
@@ -31,9 +31,9 @@ const PetCard = ({ datosPet, selectedSpecies, selectedGender }) => {
               <Link to={`/pets/${pet._id}`}>
                 <Button variant="primary">Ver detalle</Button>
               </Link>
-              {/* <Link to={`/pets/${pet._id}/edit`}>
-              <Button variant="primary">Editar info</Button>
-            </Link> */}
+              <Link to={`/pets/${pet._id}/edit`}>
+                <Button variant="primary">Editar info</Button>
+              </Link>
             </div>
           </Card>
         );

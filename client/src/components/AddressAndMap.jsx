@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import PetMap from "./PetMap";
 
-function AddressAndMap(props) {
+function AddressAndMap({ isCropperDisplayed }) {
   const [mapInstance, setMapInstance] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(false);
   return (
     <div>
       <PetMap
+        isCropperDisplayed={isCropperDisplayed}
         setSelectedMarker={setSelectedMarker}
         setMapInstance={setMapInstance}
         selectedMarker={selectedMarker}

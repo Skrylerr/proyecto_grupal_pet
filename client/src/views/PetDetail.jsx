@@ -99,22 +99,34 @@ const PetDetail = () => {
             <Slider {...settings}>
               <div>
                 <Card style={{ width: "25rem" }}>
-                  <Image src={datos.linkimagen} rounded />
+                  <Image
+                    src={`http://localhost:8000/images/${datos.linkimagen1}`}
+                    rounded
+                  />
                 </Card>
               </div>
               <div>
                 <Card style={{ width: "25rem" }}>
-                  <Image src={datos.linkimagen2} rounded />
+                  <Image
+                    src={`http://localhost:8000/images/${datos.linkimagen2}`}
+                    rounded
+                  />
                 </Card>
               </div>
               <div>
                 <Card style={{ width: "25rem" }}>
-                  <Image src={datos.linkimagen3} rounded />
+                  <Image
+                    src={`http://localhost:8000/images/${datos.linkimagen3}`}
+                    rounded
+                  />
                 </Card>
               </div>
               <div>
                 <Card style={{ width: "25rem" }}>
-                  <Image src={datos.linkimagen4} rounded />
+                  <Image
+                    src={`http://localhost:8000/images/${datos.linkimagen4}`}
+                    rounded
+                  />
                 </Card>
               </div>
             </Slider>

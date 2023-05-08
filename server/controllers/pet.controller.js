@@ -1,27 +1,30 @@
 const Pet = require("../models/pet.model");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
-module.exports.crear =  async (req, res) => {
-  let file = req.files.linkimagen;
+module.exports.crear = async (req, res) => {
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+  let files = req.files;
   let bodyData = req.body;
-
-  const extensionName = path.extname(file.name);
-
-  var imageName = Math.floor(Date.now() / 1000) + extensionName;
-  file.mv(`${__dirname}/../public/${imageName}`);
-
-  bodyData["linkimagen"] = imageName;
+  for (const key in files) {
+    await delay(50);
+    const file = files[key];
+    const extensionName = path.extname(file.name);
+    var imageName = Math.floor(Date.now()) + extensionName;
+    file.mv(`${__dirname}/../public/${imageName}`);
+    bodyData[key] = imageName;
+  }
   bodyData["coordenadas"] = JSON.parse(bodyData["coordenadas"]);
-  await console.log(bodyData);
 
   // Set the user ID of the authenticated user to the pet's userId field
-  
   let decodedJwt = jwt.decode(req.body.token, {
     complete: true
   });
+
   bodyData["userId"] = decodedJwt.payload._id;
-  console.log(decodedJwt)
+  console.log(decodedJwt);
+  console.log(bodyData);
   await Pet.create(bodyData)
     .then((resp) => {
       res.json({
@@ -30,6 +33,7 @@ module.exports.crear =  async (req, res) => {
       });
     })
     .catch((e) => {
+      console.log(e);
       res.json({
         error: true,
         mensaje: "Ha ocurrido un error al crear la Mascota."
@@ -37,14 +41,15 @@ module.exports.crear =  async (req, res) => {
     });
 };
 
-
-
 module.exports.listar = async (req, res) => {
   try {
     const pets = await Pet.find().sort({ createdAt: -1 });
     res.json({ datosPet: pets, error: false });
   } catch (e) {
-    res.status(500).json({ error: true, mensaje: "Ha ocurrido un error al rescatar la información." });
+    res.status(500).json({
+      error: true,
+      mensaje: "Ha ocurrido un error al rescatar la información."
+    });
   }
 };
 
@@ -65,6 +70,18 @@ module.exports.listarId = async (req, res) => {
 };
 
 module.exports.eliminar = async (req, res) => {
+  const pet = await Pet.findById(req.params.id);
+  const filesToDelete = [
+    pet.linkimagen1,
+    pet.linkimagen2,
+    pet.linkimagen3,
+    pet.linkimagen4
+  ];
+  const public = "./public/";
+  for (file of filesToDelete) {
+    console.log(file);
+    fs.unlinkSync(public + file);
+  }
   await Pet.findByIdAndDelete(req.params.id)
     .then((resp) => {
       res.json({
@@ -98,11 +115,11 @@ module.exports.actualizar = async (req, res) => {
 
 //module.exports.listarPorUsuario = async (req, res) => {
 // try {
-  //const userId = req.params.userId;
-  //const pets = await Pet.find({ userId }).populate('userId');
-  //res.status(200).json({ success: true, data: pets });
+//const userId = req.params.userId;
+//const pets = await Pet.find({ userId }).populate('userId');
+//res.status(200).json({ success: true, data: pets });
 //} catch (error) {
-  //console.error(error);
-  //res.status(500).json({ success: false, message: 'Error al obtener las mascotas del usuario.' });
+//console.error(error);
+//res.status(500).json({ success: false, message: 'Error al obtener las mascotas del usuario.' });
 //}
 //};

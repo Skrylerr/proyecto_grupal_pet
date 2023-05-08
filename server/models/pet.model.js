@@ -51,21 +51,21 @@ const PetSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    linkimagen: {
-      type: String
-      // required: [true, "La imagen de la mascota es requerida."]
+    linkimagen1: {
+      type: String,
+      required: [true, "La imagen de la mascota es requerida."]
     },
     linkimagen2: {
-      type: String
-      // required: [true]
+      type: String,
+      required: [true]
     },
     linkimagen3: {
-      type: String
-      // required: [true]
+      type: String,
+      required: [true]
     },
     linkimagen4: {
-      type: String
-      // required: [true]
+      type: String,
+      required: [true]
     },
     ubicacion: {
       type: String,
@@ -73,11 +73,10 @@ const PetSchema = new mongoose.Schema(
     },
     coordenadas: {
       type: Object
-    },
+    }
   },
   { timestamps: true }
 );
-
 
 const Pet = mongoose.model("Pet", PetSchema);
 module.exports = Pet;

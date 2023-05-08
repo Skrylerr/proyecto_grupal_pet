@@ -15,6 +15,7 @@ const libraries = ["places"];
 
 function PetMap(props) {
   const {
+    isCropperDisplayed,
     setSelectedMarker,
     selectedMarker,
     mapInstance,
@@ -53,7 +54,7 @@ function PetMap(props) {
         <GoogleMap
           zoom={zoom}
           center={center}
-          mapContainerClassName={mapContainerSize}
+          mapContainerClassName={!isCropperDisplayed ? mapContainerSize : ""}
           onLoad={(mapIns) => setMapInstance(mapIns)}
           onClick={() => setSelectedMarker(false)}
         >
@@ -77,8 +78,7 @@ function PetMap(props) {
                 );
               }
               return null;
-            })
-          }
+            })}
 
           {selectedMarker && (
             <InfoWindow
