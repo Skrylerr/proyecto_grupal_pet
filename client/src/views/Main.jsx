@@ -41,7 +41,7 @@ const Main = ({ loggedUser }) => {
       <Container>
         <Row className="d-flex align-items-center mb-3">
           <img
-            src="https://www.dogtime.com/assets/uploads/2022/12/GettyImages-175928868-1280x720.jpg"
+            src="https://www.fetchpetcare.com/wp-content/uploads/2016/11/dreamstime_xxl_87694876-1024x293.jpg"
             alt="Dog"
             width="50"
             height="500"
